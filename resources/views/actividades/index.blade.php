@@ -6,16 +6,16 @@
                     Seguimiento personal
                 </p>
                 <h1 class="mt-1 text-3xl font-bold tracking-tight text-slate-900">
-                    Mis hábitos
+                    Actividad física
                 </h1>
                 <p class="mt-2 text-sm text-slate-600">
-                    Gestiona tus hábitos y marca su cumplimiento diario.
+                    Registra tus entrenamientos y consulta tu actividad acumulada.
                 </p>
             </div>
 
-            <a href="{{ route('habitos.create') }}"
+            <a href="{{ route('actividades.create') }}"
                class="inline-flex items-center justify-center rounded-xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700">
-                Nuevo hábito
+                Registrar actividad
             </a>
         </div>
     </x-slot>
@@ -30,80 +30,70 @@
             @endif
 
             <!-- Contadores -->
-            <section class="mb-6 grid gap-4 sm:grid-cols-3">
+            <section class="mb-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
                 <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-                    <p class="text-sm font-medium text-slate-500">Total hábitos</p>
+                    <p class="text-sm font-medium text-slate-500">Total actividades</p>
                     <p class="mt-3 text-3xl font-bold tracking-tight text-slate-900">
-                        {{ $totalHabitos }}
+                        {{ $totalActividades }}
+                    </p>
+                </div>
+
+                <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+                    <p class="text-sm font-medium text-slate-500">Minutos totales</p>
+                    <p class="mt-3 text-3xl font-bold tracking-tight text-slate-900">
+                        {{ $minutosTotales }}
                     </p>
                 </div>
 
                 <div class="rounded-2xl border border-emerald-200 bg-white p-5 shadow-sm">
-                    <p class="text-sm font-medium text-slate-500">Completados hoy</p>
+                    <p class="text-sm font-medium text-slate-500">Esta semana</p>
                     <p class="mt-3 text-3xl font-bold tracking-tight text-emerald-600">
-                        {{ $completadosHoy }}
+                        {{ $actividadesEstaSemana }}
                     </p>
+                    <p class="mt-1 text-sm text-slate-500">sesiones registradas</p>
                 </div>
 
-                <div class="rounded-2xl border border-amber-200 bg-white p-5 shadow-sm">
-                    <p class="text-sm font-medium text-slate-500">Pendientes hoy</p>
-                    <p class="mt-3 text-3xl font-bold tracking-tight text-amber-600">
-                        {{ $pendientesHoy }}
+                <div class="rounded-2xl border border-blue-200 bg-white p-5 shadow-sm">
+                    <p class="text-sm font-medium text-slate-500">Minutos esta semana</p>
+                    <p class="mt-3 text-3xl font-bold tracking-tight text-blue-600">
+                        {{ $minutosEstaSemana }}
                     </p>
                 </div>
             </section>
 
             <div class="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
-                @if($habitos->count())
+                @if($actividades->count())
                     <div class="overflow-x-auto">
                         <table class="min-w-full divide-y divide-slate-200">
                             <thead class="bg-slate-50">
                                 <tr>
-                                    <th class="px-6 py-4 text-left text-sm font-semibold text-slate-700">Nombre</th>
-                                    <th class="px-6 py-4 text-left text-sm font-semibold text-slate-700">Frecuencia</th>
-                                    <th class="px-6 py-4 text-left text-sm font-semibold text-slate-700">Descripción</th>
-                                    <th class="px-6 py-4 text-left text-sm font-semibold text-slate-700">Estado hoy</th>
+                                    <th class="px-6 py-4 text-left text-sm font-semibold text-slate-700">Actividad</th>
+                                    <th class="px-6 py-4 text-left text-sm font-semibold text-slate-700">Duración</th>
+                                    <th class="px-6 py-4 text-left text-sm font-semibold text-slate-700">Fecha</th>
                                     <th class="px-6 py-4 text-right text-sm font-semibold text-slate-700">Acciones</th>
                                 </tr>
                             </thead>
+
                             <tbody class="divide-y divide-slate-100">
-                                @foreach($habitos as $habito)
-                                    @php
-                                        $completadoHoy = in_array($habito->id, $registrosHoy);
-                                    @endphp
-
-                                    <tr class="{{ $completadoHoy ? 'bg-emerald-50/40' : 'hover:bg-slate-50' }}">
-                                        <td class="px-6 py-4 align-top">
-                                            <div class="font-semibold text-slate-900">
-                                                {{ $habito->nombre }}
-                                            </div>
-                                        </td>
-
-                                        <td class="px-6 py-4 align-top">
-                                            <span class="inline-flex rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700">
-                                                {{ $habito->frecuencia }}
+                                @foreach($actividades as $actividad)
+                                    <tr class="hover:bg-slate-50">
+                                        <td class="px-6 py-4">
+                                            <span class="font-semibold text-slate-900">
+                                                {{ ucfirst($actividad->tipo) }}
                                             </span>
                                         </td>
 
-                                        <td class="px-6 py-4 align-top text-sm text-slate-600">
-                                            {{ $habito->descripcion ?: 'Sin descripción' }}
+                                        <td class="px-6 py-4 text-sm text-slate-700">
+                                            {{ $actividad->duracion }} min
                                         </td>
 
-                                        <td class="px-6 py-4 align-top">
-                                            @if($completadoHoy)
-                                                <span class="inline-flex rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700">
-                                                    Completado hoy
-                                                </span>
-                                            @else
-                                                <span class="inline-flex rounded-full bg-amber-50 px-3 py-1 text-xs font-semibold text-amber-700">
-                                                    Pendiente
-                                                </span>
-                                            @endif
+                                        <td class="px-6 py-4 text-sm text-slate-600">
+                                            {{ \Carbon\Carbon::parse($actividad->fecha)->format('d/m/Y') }}
                                         </td>
 
                                         <td class="px-6 py-4">
                                             <div class="flex flex-wrap justify-end gap-2">
-                                                <a href="{{ route('habitos.edit', $habito) }}"
+                                                <a href="{{ route('actividades.edit', $actividad->id) }}"
                                                    class="rounded-lg border border-slate-300 bg-white px-3 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-100">
                                                     Editar
                                                 </a>
@@ -111,30 +101,13 @@
                                                 <button
                                                     type="button"
                                                     x-data=""
-                                                    x-on:click.prevent="$dispatch('open-modal', 'confirmar-eliminar-habito-{{ $habito->id }}')"
+                                                    x-on:click.prevent="$dispatch('open-modal', 'confirmar-eliminar-actividad-{{ $actividad->id }}')"
                                                     class="rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-xs font-semibold text-red-700 transition hover:bg-red-100">
                                                     Eliminar
                                                 </button>
-
-                                                @if(!$completadoHoy)
-                                                    <form action="{{ route('habitos.completar', $habito) }}" method="POST">
-                                                        @csrf
-                                                        <button type="submit"
-                                                            class="rounded-lg bg-emerald-600 px-3 py-2 text-xs font-semibold text-white transition hover:bg-emerald-700">
-                                                            Completar hoy
-                                                        </button>
-                                                    </form>
-                                                @else
-                                                    <button type="button"
-                                                        disabled
-                                                        class="cursor-not-allowed rounded-lg bg-slate-200 px-3 py-2 text-xs font-semibold text-slate-500">
-                                                        Ya completado
-                                                    </button>
-                                                @endif
                                             </div>
 
-                                            <!-- Modal eliminar -->
-                                            <x-modal name="confirmar-eliminar-habito-{{ $habito->id }}" focusable>
+                                            <x-modal name="confirmar-eliminar-actividad-{{ $actividad->id }}" focusable>
                                                 <div class="p-8">
                                                     <div class="mx-auto max-w-lg">
                                                         <div class="mb-5 flex h-12 w-12 items-center justify-center rounded-full bg-red-50">
@@ -144,13 +117,15 @@
                                                         </div>
 
                                                         <h2 class="text-2xl font-bold tracking-tight text-slate-900">
-                                                            Eliminar hábito
+                                                            Eliminar actividad
                                                         </h2>
 
                                                         <p class="mt-3 text-sm leading-6 text-slate-600">
-                                                            ¿Seguro que quieres eliminar el hábito
-                                                            <span class="font-semibold text-slate-900">"{{ $habito->nombre }}"</span>?
-                                                            Esta acción eliminará su información de forma permanente y no se podrá deshacer.
+                                                            ¿Seguro que quieres eliminar la actividad
+                                                            <span class="font-semibold text-slate-900">"{{ ucfirst($actividad->tipo) }}"</span>
+                                                            del día
+                                                            <span class="font-semibold text-slate-900">{{ \Carbon\Carbon::parse($actividad->fecha)->format('d/m/Y') }}</span>?
+                                                            Esta acción no se puede deshacer.
                                                         </p>
 
                                                         <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-end">
@@ -161,7 +136,7 @@
                                                                 Cancelar
                                                             </button>
 
-                                                            <form action="{{ route('habitos.destroy', $habito) }}" method="POST">
+                                                            <form action="{{ route('actividades.destroy', $actividad->id) }}" method="POST">
                                                                 @csrf
                                                                 @method('DELETE')
                                                                 <button
@@ -184,14 +159,14 @@
                     <div class="px-6 py-16 text-center">
                         <div class="mx-auto max-w-md">
                             <h2 class="text-xl font-bold text-slate-900">
-                                Todavía no has creado ningún hábito
+                                Todavía no has registrado actividad física
                             </h2>
                             <p class="mt-3 text-sm leading-6 text-slate-600">
-                                Empieza añadiendo tu primer hábito para registrar tus rutinas y hacer seguimiento diario.
+                                Añade tu primera actividad para empezar a llevar un seguimiento de entrenamientos y tiempo acumulado.
                             </p>
-                            <a href="{{ route('habitos.create') }}"
+                            <a href="{{ route('actividades.create') }}"
                                class="mt-6 inline-flex items-center justify-center rounded-xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700">
-                                Crear primer hábito
+                                Registrar primera actividad
                             </a>
                         </div>
                     </div>

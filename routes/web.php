@@ -3,6 +3,11 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\HabitoController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ActividadFisicaController;
+use App\Http\Controllers\LecturaController;
+
+require __DIR__.'/auth.php';
 
 Route::get('/', function () {
     return view('welcome');
@@ -20,7 +25,20 @@ Route::middleware('auth')->group(function () {
 
 
 Route::middleware(['auth'])->group(function () {
+
     Route::resource('habitos', HabitoController::class);
+
+    Route::post('/habitos/{id}/completar', [HabitoController::class, 'completar'])
+        ->name('habitos.completar');
+
 });
 
-require __DIR__.'/auth.php';
+Route::get('/dashboard', [DashboardController::class, 'index'])
+    ->middleware(['auth'])
+    ->name('dashboard');
+
+Route::resource('actividades', ActividadFisicaController::class)
+    ->middleware(['auth']);
+
+Route::resource('lecturas', LecturaController::class)
+    ->middleware(['auth']);
