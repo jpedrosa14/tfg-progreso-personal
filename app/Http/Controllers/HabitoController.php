@@ -59,13 +59,13 @@ class HabitoController extends Controller
 		return redirect()->route('habitos.index');
 	}
 
-    public function completar(\App\Models\Habito $habito)
+    public function completar(Habito $habito)
     {
-        if ($habito->user_id !== auth()->id()) {
+        if ($habito->user_id != auth()->id()) {
             abort(403);
         }
 
-        \App\Models\RegistroHabito::firstOrCreate(
+        RegistroHabito::firstOrCreate(
             [
                 'habito_id' => $habito->id,
                 'fecha' => now()->toDateString(),

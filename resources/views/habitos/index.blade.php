@@ -117,7 +117,7 @@
                                                 </button>
 
                                                 @if(!$completadoHoy)
-                                                    <form action="{{ route('habitos.completar', $habito) }}" method="POST">
+                                                    <form action="{{ route('habitos.completar', $habito->id) }}" method="POST">
                                                         @csrf
                                                         <button type="submit"
                                                             class="rounded-lg bg-emerald-600 px-3 py-2 text-xs font-semibold text-white transition hover:bg-emerald-700">
