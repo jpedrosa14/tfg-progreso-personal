@@ -9,7 +9,7 @@ class AppServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-        //
+        // Pendiente
     }
 
     public function boot(): void
