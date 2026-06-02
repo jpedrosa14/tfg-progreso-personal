@@ -11,16 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-		Schema::create('lecturas', function (Blueprint $table) {
-			$table->id();
-			$table->string('titulo');
-			$table->string('autor');
-			$table->string('estado');
-			$table->date('fecha_inicio')->nullable();
-			$table->date('fecha_fin')->nullable();
-			$table->foreignId('user_id')->constrained()->onDelete('cascade');
-			$table->timestamps();
-		});
+        Schema::create('lecturas', function (Blueprint $table) {
+            $table->id();
+            $table->string('titulo');
+            $table->string('autor');
+            $table->string('estado');
+            $table->date('fecha_inicio')->nullable();
+            $table->date('fecha_fin')->nullable();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->timestamps();
+        });
     }
 
     /**

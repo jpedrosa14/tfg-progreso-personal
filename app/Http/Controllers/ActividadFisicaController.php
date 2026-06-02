@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\ActividadFisica;
+use Illuminate\Http\Request;
 
 class ActividadFisicaController extends Controller
 {
@@ -44,14 +44,14 @@ class ActividadFisicaController extends Controller
         $request->validate([
             'tipo' => 'required|string',
             'duracion' => 'required|integer|min:1',
-            'fecha' => 'required|date'
+            'fecha' => 'required|date',
         ]);
 
         ActividadFisica::create([
             'tipo' => $request->tipo,
             'duracion' => $request->duracion,
             'fecha' => $request->fecha,
-            'user_id' => auth()->id()
+            'user_id' => auth()->id(),
         ]);
 
         return redirect()->route('actividades.index')
@@ -76,13 +76,13 @@ class ActividadFisicaController extends Controller
         $request->validate([
             'tipo' => 'required|string',
             'duracion' => 'required|integer|min:1',
-            'fecha' => 'required|date'
+            'fecha' => 'required|date',
         ]);
 
         $actividad->update([
             'tipo' => $request->tipo,
             'duracion' => $request->duracion,
-            'fecha' => $request->fecha
+            'fecha' => $request->fecha,
         ]);
 
         return redirect()->route('actividades.index')

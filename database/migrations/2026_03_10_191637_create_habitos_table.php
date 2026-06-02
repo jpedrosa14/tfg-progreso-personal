@@ -11,14 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-		Schema::create('habitos', function (Blueprint $table) {
-			$table->id();
-			$table->string('nombre');
-			$table->text('descripcion')->nullable();
-			$table->string('frecuencia');
-			$table->foreignId('user_id')->constrained()->onDelete('cascade');
-			$table->timestamps();
-		});
+        Schema::create('habitos', function (Blueprint $table) {
+            $table->id();
+            $table->string('nombre');
+            $table->text('descripcion')->nullable();
+            $table->string('frecuencia');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->timestamps();
+        });
     }
 
     /**

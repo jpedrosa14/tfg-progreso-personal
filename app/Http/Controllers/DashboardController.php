@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ActividadFisica;
 use App\Models\Habito;
 use App\Models\Lectura;
 use App\Models\RegistroHabito;
-use App\Models\ActividadFisica;
-use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
@@ -20,8 +19,8 @@ class DashboardController extends Controller
         $habitosActivos = Habito::where('user_id', $user->id)->count();
 
         $habitosCompletadosHoy = RegistroHabito::whereHas('habito', function ($query) use ($user) {
-                $query->where('user_id', $user->id);
-            })
+            $query->where('user_id', $user->id);
+        })
             ->whereDate('fecha', now()->toDateString())
             ->where('completado', 1)
             ->count();
@@ -38,7 +37,6 @@ class DashboardController extends Controller
             ->whereMonth('created_at', now()->month)
             ->whereYear('created_at', now()->year)
             ->count();
-
 
         $totalHabitos = Habito::where('user_id', $user->id)->count();
 
@@ -82,8 +80,8 @@ class DashboardController extends Controller
             $labelsHabitos[] = $fecha->format('d/m');
 
             $completados = RegistroHabito::whereHas('habito', function ($query) use ($user) {
-                    $query->where('user_id', $user->id);
-                })
+                $query->where('user_id', $user->id);
+            })
                 ->whereDate('fecha', $fecha->toDateString())
                 ->where('completado', 1)
                 ->count();

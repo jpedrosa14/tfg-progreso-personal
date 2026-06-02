@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Habito;
-use Illuminate\Support\Facades\Auth;
 use App\Models\RegistroHabito;
-use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HabitoController extends Controller
 {
@@ -36,28 +35,28 @@ class HabitoController extends Controller
         ));
     }
 
-	public function create()
-	{
-		return view('habitos.create');
-	}
+    public function create()
+    {
+        return view('habitos.create');
+    }
 
-	public function store(Request $request)
-	{
-		$request->validate([
-			'nombre' => 'required|string|max:255',
-			'descripcion' => 'nullable|string',
-			'frecuencia' => 'required|string'
-		]);
+    public function store(Request $request)
+    {
+        $request->validate([
+            'nombre' => 'required|string|max:255',
+            'descripcion' => 'nullable|string',
+            'frecuencia' => 'required|string',
+        ]);
 
-		Habito::create([
-			'nombre' => $request->nombre,
-			'descripcion' => $request->descripcion,
-			'frecuencia' => $request->frecuencia,
-			'user_id' => Auth::id()
-		]);
+        Habito::create([
+            'nombre' => $request->nombre,
+            'descripcion' => $request->descripcion,
+            'frecuencia' => $request->frecuencia,
+            'user_id' => Auth::id(),
+        ]);
 
-		return redirect()->route('habitos.index');
-	}
+        return redirect()->route('habitos.index');
+    }
 
     public function completar(Habito $habito)
     {
@@ -97,13 +96,13 @@ class HabitoController extends Controller
         $request->validate([
             'nombre' => 'required|string|max:255',
             'descripcion' => 'nullable|string',
-            'frecuencia' => 'required|string'
+            'frecuencia' => 'required|string',
         ]);
 
         $habito->update([
             'nombre' => $request->nombre,
             'descripcion' => $request->descripcion,
-            'frecuencia' => $request->frecuencia
+            'frecuencia' => $request->frecuencia,
         ]);
 
         return redirect()->route('habitos.index')

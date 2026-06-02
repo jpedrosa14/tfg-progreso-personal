@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Lectura;
+use Illuminate\Http\Request;
 
 class LecturaController extends Controller
 {
@@ -48,7 +48,7 @@ class LecturaController extends Controller
             'estado' => $request->estado,
             'fecha_inicio' => $request->fecha_inicio,
             'fecha_fin' => $request->fecha_fin,
-            'user_id' => auth()->id()
+            'user_id' => auth()->id(),
         ]);
 
         return redirect()->route('lecturas.index')
